@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 
 import json
@@ -17,24 +15,7 @@ def index(request):
 
 def loadTodos(request):
     if request.method == "GET":
-        # resp = [];
-        # for t in Todo.objects.all():
-        #     print(t.description)
-        #     print(t.name)
-        #
-        #     resp.append(json.dumps({ t.priority, t.name,t.description } ))
-        resp = Todo.objects.all().values()
-        # print(list(resp))
-        resp_json = json.dumps(list(resp), ensure_ascii=False, default=str)
-        # print(resp_json)
-
-        # class Encoder(DjangoJSONEncoder):
-        #     def default(self, o):
-        #         return json.dumps(list(o), ensure_ascii=False, default=str)
-
-        # return JsonResponse(resp_json, safe=False)
-        # return HttpResponse(resp_json)
-        return HttpResponse(serialize('json', Todo.objects.all()))
+        return HttpResponse(serialize('json', Todo.objects.order_by('-priority')))
 
 @csrf_exempt # probably better to add localhost to CSRF_TRUSTED_ORIGINS
 def addTodo(request):
