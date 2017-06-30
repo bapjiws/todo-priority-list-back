@@ -25,3 +25,8 @@ def addTodo(request):
         todo = Todo.objects.create(priority=payload['priority'], name=payload['name'], description=payload['description'])
         todo.save()
         return HttpResponse(request.body)
+
+def dropTodos(request):
+    if request.method == "GET":
+        Todo.objects.all().delete()
+        return HttpResponse("DROPPED EVERYTHING!")
