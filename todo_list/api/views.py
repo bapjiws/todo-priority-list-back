@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.serializers import serialize
 
 import json
 
@@ -32,7 +33,8 @@ def loadTodos(request):
         #         return json.dumps(list(o), ensure_ascii=False, default=str)
 
         # return JsonResponse(resp_json, safe=False)
-        return HttpResponse(resp_json)
+        # return HttpResponse(resp_json)
+        return HttpResponse(serialize('json', Todo.objects.all()))
 
 @csrf_exempt # probably better to add localhost to CSRF_TRUSTED_ORIGINS
 def addTodo(request):
