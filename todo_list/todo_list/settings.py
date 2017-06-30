@@ -74,6 +74,10 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# To create the user and the db, run these commands first (https://www.postgresql.org/docs/9.1/static/app-createuser.html):
+# sudo -u postgres createuser -P -s -e $whoami
+# sudo -u $whoami createdb todo_list
+# psql $whoami -h 127.0.0.1 -d todo_list
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
