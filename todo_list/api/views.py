@@ -9,13 +9,18 @@ import json
 
 from .models import Todo
 
-# Create your views here.
 def index(request):
     return HttpResponse("Hi! You're at the API app index. Welcome!")
 
 def loadTodos(request):
     if request.method == "GET":
-        return HttpResponse(serialize('json', Todo.objects.order_by('-priority')))
+        sort = request.GET.get('sort')
+        if sort == 'desc':
+            return HttpResponse(serialize('json', Todo.objects.order_by('-priority')))
+        elif sort == 'asc':
+            return HttpResponse(serialize('json', Todo.objects.order_by('priority')))
+        else:
+            return HttpResponse(serialize('json', Todo.objects.all()))
 
 @csrf_exempt # probably better to add localhost to CSRF_TRUSTED_ORIGINS
 def addTodo(request):
