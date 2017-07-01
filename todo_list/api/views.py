@@ -26,13 +26,14 @@ def loadTodos(request):
 def addTodo(request):
     if request.method == "POST":
         payload = json.loads(request.body)
-        todo = Todo.objects.create(
-            priority=payload['priority'],
-            name=unicode(payload['name']),
-            description=payload['description']
+
+        Todo.objects.create(
+            priority=payload['todo']['priority'],
+            name=payload['todo']['name'],
+            description=payload['todo']['description']
         )
-        todo.save()
-        return HttpResponse(request.body)
+
+        return HttpResponse(json.dumps(payload['todo']))
 
 def dropTodos(request):
     if request.method == "GET":
